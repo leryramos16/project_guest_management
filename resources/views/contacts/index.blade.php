@@ -14,7 +14,7 @@
     <h1 class="text-3xl font-bold text-gray-600">My Contacts</h1>
 </div>
 
-<!-- Success Message -->
+<!-- Success Message (USING ALPHINE.JS) -->
 @if(session('success'))
 <div
     x-data="{ show: true }"
