@@ -77,7 +77,7 @@
         Delete
     </button>
 
-    <!-- Modal -->
+    <!-- Modal using Alphine.js -->
     <div
         x-show="open"
         x-transition
