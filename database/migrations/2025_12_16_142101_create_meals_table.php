@@ -13,7 +13,15 @@ return new class extends Migration
     {
         Schema::create('meals', function (Blueprint $table) {
             $table->id();
+            $table->date('meal_date');
+            $table->enum('meal_type', ['breakfast', 'lunch', 'dinner']);
+            $table->string('main_menu');
+            $table->string('soup');
+            $table->string('sub_menu');
+            $table->string('fruits');
             $table->timestamps();
+
+            $table->unique(['meal_date', 'meal_type']);
         });
     }
 

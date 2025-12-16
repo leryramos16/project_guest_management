@@ -7,16 +7,40 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-gray-100 p-6">
-    <div class="max-w-3xl mx-auto bg-white shadow-lg rounded-lg p-6">
-        <h1 class="text-2xl font-bold mb-4 text-gray-700">Guest List</h1>
+    <div class="max-w-3xl mx-auto">
         @if (session('success'))
             <p class="text-green-600 mb-4">{{ session('success') }}</p>
         @endif
+    </div>
+    <div class="max-w-3xl mx-auto bg-white shadow-lg rounded-lg p-6">
+        
+
+
+        <div class="mb-6">
+            <h2 class="text-xl font-bold mb-2">Today's Fullboard</h2>
+        @foreach (['breakfast', 'lunch', 'dinner'] as $mealType)
+            @if(isset($todayMeals[$mealType]))
+                <div class="mb-4 p-4 bg-gray-100 rounded shadow">
+                    <h3 class="font-semibold capitalize">{{ $mealType }}</h3>
+                    <p><strong>Main:</strong>{{ $todayMeals[$mealType]->main_menu }}</p>
+                    <p><strong>Soup:</strong>{{ $todayMeals[$mealType]->soup }}</p>
+                    <p><strong>Sub Menu:</strong>{{ $todayMeals[$mealType]->sub_menu }}</p>
+                    <p><strong>Fruits:</strong>{{ $todayMeals[$mealType]->fruits }}</p>
+                </div>
+            @else
+                <div class="mb-4 p-4 bg-red-100 rounded shadow">
+                    <p class="text-red-600 capitalize">{{ $mealType }} menu not set for today.</p>
+                </div>
+            @endif
+        @endforeach
+        </div>
+        
         <a href="{{ route('guests.create') }}" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
             Add Guest
         </a>
+        <h1 class="text-2xl font-bold mt-2 text-gray-700">Guest List</h1>
 
-        <table class="w-full mt-10 border">
+        <table class="w-full mt-3 border">
             <thead>
                 <tr class="bg-gray-200 text-left">
                     <th class="p-2 border">Full Name</th>

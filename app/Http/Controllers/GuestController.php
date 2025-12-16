@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Guest;
+use App\Models\Meal;
 use Illuminate\Http\Request;
 
 class GuestController extends Controller
@@ -9,11 +10,17 @@ class GuestController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {   
-        $guests = Guest::all();
-        return view('guests.index', compact('guests'));
-    }
+   public function index()
+{
+    $guests = Guest::all();
+
+    // Get today's meals keyed by meal_type
+    $todayMeals = Meal::where('meal_date', today())
+                      ->get()
+                      ->keyBy('meal_type');
+    
+    return view('guests.index', compact('guests', 'todayMeals'));
+}
 
     /**
      * Show the form for creating a new resource.
