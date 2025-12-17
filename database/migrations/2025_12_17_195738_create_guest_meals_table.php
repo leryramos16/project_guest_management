@@ -22,10 +22,10 @@ return new class extends Migration
                 ->constrained()
                 ->cascadeOnDelete();
 
+            
+
+            $table->unique(['guest_id', 'meal_id']); // prevent duplicates
             $table->timestamps();
-
-            $table->unique('guest_id', 'meal_id'); // prevent duplicates
-
 
         });
     }
