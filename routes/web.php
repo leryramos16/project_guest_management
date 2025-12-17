@@ -12,8 +12,8 @@ Route::get('/', [GuestController::class, 'index']);
 Route::resource('/guests', GuestController::class);
 Route::get('/meals/create', [MealController::class, 'create'])->name('meals.create');
 Route::post('/meals', [MealController::class, 'store'])->name('meals.store');
-Route::post('/guest-meals', [GuestMealController::class, 'store'])
-    ->name('guest_meals.store');
+Route::post('/guest-meals', [GuestMealController::class, 'store'])->name('guest_meals.store');
+Route::get('/guest-meals', [GuestMealController::class, 'index'])->name('guest_meals.index');
 
 
 

@@ -8,6 +8,16 @@ use Illuminate\Http\Request;
 
 class GuestMealController extends Controller
 {
+    public function index()
+    {
+        // Get all guest meals with guest and meal info
+        $guestMeals = GuestMeal::with(['guest', 'meal'])
+            ->orderBy('meal_id')
+            ->get();
+
+        return view('guest_meals.index', compact('guestMeals'));
+    }
+
     public function store(Request $request)
     {
         $request->validate([
