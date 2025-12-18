@@ -17,12 +17,15 @@
 
 
         <div class="mb-6">
-            <h2 class="text-xl font-bold mb-2">Today's Menu</h2>
-            <div class="mb-5">
+            <div class="mb-3">  
                 <a href="{{ route('meals.create') }}" class="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700">
                 Create Menu
-            </a>
+                </a>
+                <a href="{{ route('guest_meals.index') }}">Guests Meal Records</a>
             </div>
+             
+            <h2 class="text-xl font-bold mb-2">Today's Menu</h2>
+            
             
         @foreach (['breakfast', 'lunch', 'dinner'] as $mealType)
             @if(isset($todayMeals[$mealType]))

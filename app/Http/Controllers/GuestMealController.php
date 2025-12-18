@@ -33,7 +33,7 @@ class GuestMealController extends Controller
 
     // Record each selected guest
     foreach ($request->guest_ids as $guestId) {
-        GuestMeal::updateOrCreate(
+        GuestMeal::firstOrCreate(
             [
                 'guest_id' => $guestId,
                 'meal_id' => $meal->id,

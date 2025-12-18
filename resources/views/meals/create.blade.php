@@ -16,12 +16,20 @@
         <form action="{{ route('meals.store') }}" method="POST">
             @csrf
             <label class="block mb-2">Date</label>
-            <input type="date" name="meal_date" class="w-full border p-2 mb-4" required>
+            <input type="date" name="meal_date" class="w-full border p-2 mb-4" min="{{ now()->toDateString() }}" value="{{ old('meal_date', now()->toDateString()) }}" required>
             <label class="block mb-2">Meal Type</label>
             <select name="meal_type" class="w-full border p-2 mb-4" required> 
-                <option value="breakfast">Breakfast</option>
-                <option value="lunch">Lunch</option>
-                <option value="dinner">Dinner</option>
+                @php
+                    $mealTypes = ['breakfast', 'lunch', 'dinner'];
+                @endphp
+
+                @foreach ($mealTypes as $type)
+                <option value="{{ $type }}"  @if(in_array($type, $usedMealTypes)) disabled @endif
+                >
+                    {{ ucfirst($type) }}
+                    @if(in_array($type, $usedMealTypes)) (Already added) @endif    
+                </option>
+                @endforeach
             </select>
             <label class="block mb-2">Main Menu</label>
             <input type="text" name="main_menu" class="w-full border p-2 mb-4" required>

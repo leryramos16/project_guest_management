@@ -24,7 +24,29 @@
         </tr>
     </thead>
     <tbody>
-        @forelse ($guestMeals as $gm)
+@php
+    $groupedByDate = $guestMeals->groupBy(fn($gm) => $gm->meal->meal_date);
+@endphp
+
+@forelse ($groupedByDate as $date => $mealsByDate)
+
+    {{-- Date Header --}}
+    <tr class="bg-gray-300">
+        <td colspan="7" class="p-3 font-bold text-lg">
+            {{ \Carbon\Carbon::parse($date)->format('F d, Y') }}
+        </td>
+    </tr>
+
+    @foreach ($mealsByDate->groupBy(fn($gm) => $gm->meal->meal_type) as $mealType => $guestMealsByType)
+
+        {{-- Meal Type Header --}}
+        <tr class="bg-gray-100">
+            <td colspan="7" class="p-2 font-semibold capitalize text-blue-600">
+                {{ $mealType }}
+            </td>
+        </tr>
+
+        @foreach ($guestMealsByType as $gm)
             <tr>
                 <td class="p-2 border">{{ $gm->guest->full_name }}</td>
                 <td class="p-2 border capitalize">{{ $gm->meal->meal_type }}</td>
@@ -32,14 +54,23 @@
                 <td class="p-2 border">{{ $gm->meal->soup }}</td>
                 <td class="p-2 border">{{ $gm->meal->sub_menu }}</td>
                 <td class="p-2 border">{{ $gm->meal->fruits }}</td>
-                <td class="p-2 border">{{ \Carbon\Carbon::parse($gm->meal->meal_date)->format('M d, Y') }}</td>
+                <td class="p-2 border">
+                    {{ \Carbon\Carbon::parse($gm->meal->meal_date)->format('M d, Y') }}
+                </td>
             </tr>
-        @empty
-            <tr>
-                <td colspan="7" class="text-center p-4">No guest meals recorded yet.</td>
-            </tr>
-        @endforelse
-    </tbody>
+        @endforeach
+
+    @endforeach
+
+@empty
+    <tr>
+        <td colspan="7" class="text-center p-4">
+            No guest meals recorded yet.
+        </td>
+    </tr>
+@endforelse
+</tbody>
+
 </table>
 
 
