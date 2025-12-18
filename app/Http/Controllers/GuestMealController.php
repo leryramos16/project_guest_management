@@ -18,11 +18,20 @@ class GuestMealController extends Controller
             ->get();
         $query = GuestMeal::with(['guest', 'meal']);
 
+        // search guest logic
         if ($request->has('search') && $request->search != '') {
             $query->whereHas('guest', function($q) use ($request) {
                 $q->where('full_name', 'like', '%' . $request->search . '%');
             });
         }
+
+        // filter date logic
+        if ($request->filled('meal_date')) {
+            $query->whereHas('meal', function ($q) use($request) {
+                $q->whereDate('meal_date', $request->meal_date);
+            });
+        }
+
 
         $guestMeals = $query->orderBy('meal_id', 'desc')->get();
 

@@ -11,7 +11,8 @@
 
         <h1 class="text-2xl font-bold mb-4">Guest Meals Records</h1>
         <div class="overflow-x-auto">
-            <form action="{{ route('guest_meals.index') }}" method="GET" class="mb-4 flex gap-2">
+            <div>
+                <form action="{{ route('guest_meals.index') }}" method="GET" class="mb-4 flex flex-wrap items-center gap-1 text-sm">
                 <input type="text" name="search" placeholder="Search guest..."
                         value="{{ request('search') }}"
                         class="p-2 border rounded flex-1"
@@ -19,7 +20,21 @@
                 <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700" > 
                     Search
                 </button>
+                <input type="date"
+                        name="meal_date"
+                        value="{{ request('meal_date') }}"
+                        class="p-2 border rounded">
+                <button type="submit"  class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                    Filter Date
+                </button>
+                <a href="{{ route('guest_meals.index') }}"
+                class="px-4 py-2 bg-gray-400 text-white rounded hover:bg-gray-500">
+                    Reset
+                </a>
+                            
             </form>
+            </div>
+            
             <table class="w-full border border-collapse">
     <thead>
         <tr class="bg-gray-200">
