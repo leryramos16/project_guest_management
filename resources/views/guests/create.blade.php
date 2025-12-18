@@ -16,8 +16,11 @@
 
             <!-- Name -->
             <label class="block mb-2 text-sm font-medium">Full Name</label>
-            <input type="text" name="full_name" class="w-full p-2 border rounded mb-4" required>
+            <input type="text" name="full_name" class="w-full p-2 border rounded mb-4" autocomplete="off" required>
 
+            <!-- Room Number -->
+             <label class="block mb-2 text-sm font-medium">Room Number</label>
+             <input type="text" name="room_number" class="w-full p-2 border rounded mb-4" autocomplete="off" required>
             <!-- Check-in Date -->
             <label class="block mb-2 text-sm font-medium">Check-in Date</label>
             <input type="date" name="check_in_date" class="w-full p-2 border rounded mb-4" required>

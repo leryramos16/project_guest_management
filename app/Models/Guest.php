@@ -8,6 +8,7 @@ class Guest extends Model
 {
     protected $fillable = [
     'full_name',
+    'room_number',
     'check_in_date',
     'check_out_date',
 ];

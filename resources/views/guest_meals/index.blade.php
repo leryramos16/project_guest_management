@@ -10,8 +10,8 @@
     <div class="max-w-4xl mx-auto bg-white p-6 rounded shadow">
 
         <h1 class="text-2xl font-bold mb-4">Guest Meals Records</h1>
-
-        <table class="w-full border border-collapse">
+        <div class="overflow-x-auto">
+            <table class="w-full border border-collapse">
     <thead>
         <tr class="bg-gray-200">
             <th class="p-2 border">Guest</th>
@@ -72,6 +72,8 @@
 </tbody>
 
 </table>
+        </div>
+        
 
 
     </div>

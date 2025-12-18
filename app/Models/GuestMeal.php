@@ -10,6 +10,7 @@ class GuestMeal extends Model
     protected $fillable = [
         'guest_id',
         'meal_id',
+        
     ];
 
     // Optional: define relationships

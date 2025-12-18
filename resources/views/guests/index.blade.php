@@ -30,11 +30,11 @@
         @foreach (['breakfast', 'lunch', 'dinner'] as $mealType)
             @if(isset($todayMeals[$mealType]))
                 <div class="mb-4 p-4 bg-gray-100 rounded shadow">
-                    <h3 class="font-semibold capitalize">{{ $mealType }}</h3>
-                    <p><strong>Main:</strong>{{ $todayMeals[$mealType]->main_menu }}</p>
-                    <p><strong>Soup:</strong>{{ $todayMeals[$mealType]->soup }}</p>
-                    <p><strong>Sub Menu:</strong>{{ $todayMeals[$mealType]->sub_menu }}</p>
-                    <p><strong>Fruits:</strong>{{ $todayMeals[$mealType]->fruits }}</p>
+                    <h1 class="text-xl text-center font-semibold capitalize">{{ $mealType }}</h1>
+                    <p><strong>Main: </strong>{{ $todayMeals[$mealType]->main_menu }}</p>
+                    <p><strong>Soup: </strong>{{ $todayMeals[$mealType]->soup }}</p>
+                    <p><strong>Sub Menu: </strong>{{ $todayMeals[$mealType]->sub_menu }}</p>
+                    <p><strong>Fruits: </strong>{{ $todayMeals[$mealType]->fruits }}</p>
                 </div>
             @else
                 <div class="mb-4 p-4 bg-red-100 rounded shadow">
@@ -64,20 +64,22 @@
     <!-- Hidden date -->
     <input type="hidden" name="meal_date" value="{{ now()->toDateString() }}">
 
-    <!-- Select All checkbox -->
-    <div class="mb-3">
-        <label class="flex items-center gap-2">
-            <input type="checkbox" id="select-all">
-            <span>Select All Guests</span>
-        </label>
-    </div>
+   
 
     <!-- Guest table -->
     <table class="w-full mt-3 border border-collapse">
         <thead>
             <tr class="bg-gray-200 text-left">
-                <th class="p-2 border">Select</th>
-                <th class="p-2 border">Full Name</th>
+                <th class="p-2 border"> 
+                            <!-- Select All checkbox -->
+                <div class="">
+                    <label class="flex items-center gap-2">
+                        <input type="checkbox" id="select-all">
+                        
+                    </label>
+                </div>
+                </th>
+                <th class="p-2 border">Room No. & Full Name</th>
                 <th class="p-2 border">Check-in</th>
                 <th class="p-2 border">Check-out</th>
             </tr>
@@ -88,7 +90,7 @@
                 <td class="p-2 border">
                     <input type="checkbox" name="guest_ids[]" value="{{ $guest->id }}" class="guest-checkbox">
                 </td>
-                <td class="p-2 border">{{ $guest->full_name }}</td>
+                <td class="p-2 border">{{ $guest->room_number }} - {{ $guest->full_name }}</td>
                 <td class="p-2 border">{{ \Carbon\Carbon::parse($guest->check_in_date)->format('M d, Y') }}</td>
                 <td class="p-2 border">{{ \Carbon\Carbon::parse($guest->check_out_date)->format('M d, Y') }}</td>
             </tr>

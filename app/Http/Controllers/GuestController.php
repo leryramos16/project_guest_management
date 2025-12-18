@@ -37,6 +37,7 @@ class GuestController extends Controller
 {
     $validated = $request->validate([
         'full_name' => 'required|string|max:255',
+        'room_number' => 'required|string|max:50',
         'check_in_date' => 'required|date',
         'check_out_date' => 'required|date|after_or_equal:check_in_date',
     ]);
