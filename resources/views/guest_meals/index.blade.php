@@ -11,6 +11,15 @@
 
         <h1 class="text-2xl font-bold mb-4">Guest Meals Records</h1>
         <div class="overflow-x-auto">
+            <form action="{{ route('guest_meals.index') }}" method="GET" class="mb-4 flex gap-2">
+                <input type="text" name="search" placeholder="Search guest..."
+                        value="{{ request('search') }}"
+                        class="p-2 border rounded flex-1"
+                        autocomplete="off">
+                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700" > 
+                    Search
+                </button>
+            </form>
             <table class="w-full border border-collapse">
     <thead>
         <tr class="bg-gray-200">

@@ -8,12 +8,23 @@ use Illuminate\Http\Request;
 
 class GuestMealController extends Controller
 {
-    public function index()
-    {
+    public function index(Request $request)
+    {   
+        
+
         // Get all guest meals with guest and meal info
         $guestMeals = GuestMeal::with(['guest', 'meal'])
             ->orderBy('meal_id')
             ->get();
+        $query = GuestMeal::with(['guest', 'meal']);
+
+        if ($request->has('search') && $request->search != '') {
+            $query->whereHas('guest', function($q) use ($request) {
+                $q->where('full_name', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        $guestMeals = $query->orderBy('meal_id', 'desc')->get();
 
         return view('guest_meals.index', compact('guestMeals'));
     }
