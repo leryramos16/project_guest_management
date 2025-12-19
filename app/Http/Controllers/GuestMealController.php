@@ -44,6 +44,9 @@ class GuestMealController extends Controller
             'guest_ids' => 'required|array',
             'meal_type' => 'required|in:breakfast,lunch,dinner',
             'meal_date' => 'required|date',
+        ], [
+            'guest_ids.required' => 'Please select at least one guest.',
+            'guest_ids.min' => 'Please select at least one guest.',
         ]);
 
         // Get the meal record for today

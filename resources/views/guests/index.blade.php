@@ -18,10 +18,27 @@
 
         <div class="mb-6">
             <div class="mb-3">  
-                <a href="{{ route('meals.create') }}" class="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700">
-                Create Menu
+                <a href="{{ route('meals.create') }}" class="px-4 py-2 bg-gray-300 text-black rounded hover:bg-gray-400">
+                +
                 </a>
-                <a href="{{ route('guest_meals.index') }}">Guests Meal Records</a>
+                <a href="{{ route('guest_meals.index') }}"
+                    class="inline-flex items-center gap-2 text-gray-700 hover:text-blue-600 font-medium">
+                        
+                        <!-- List / Records Icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+                        </svg>
+
+                        <span>Guests Meal Records</span>
+                </a>
+
             </div>
              
             <h2 class="text-xl font-bold mb-2">Today's Menu</h2>
@@ -37,15 +54,15 @@
                     <p><strong>Fruits: </strong>{{ $todayMeals[$mealType]->fruits }}</p>
                 </div>
             @else
-                <div class="mb-4 p-4 bg-red-100 rounded shadow">
-                    <p class="text-red-600 capitalize">{{ $mealType }} menu not set for today.</p>
+                <div class=" mx-auto max-w-md p-3 bg-red-100 text-red-700 rounded text-center mb-4 p-4 bg-red-100 rounded shadow">
+                    <p class="mx-auto max-w-md p-3 bg-red-100 text-red-700 rounded text-center text-red-600 capitalize">{{ $mealType }} menu not set for today.</p>
                 </div>
             @endif
         @endforeach
         </div>
         
         <a href="{{ route('guests.create') }}" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-            Add Guest
+            + Add Guest
         </a>
         <h1 class="text-2xl font-bold mt-2 text-gray-700">Guest List</h1>
     <form method="POST" action="{{ route('guest_meals.store') }}">
@@ -65,7 +82,9 @@
     <input type="hidden" name="meal_date" value="{{ now()->toDateString() }}">
 
    
-
+    <div id="guest-error" class="hidden mb-4 mx-auto max-w-md p-3 bg-red-100 text-red-700 rounded text-center">
+            Please select at least one guest before recording.
+    </div>
     <!-- Guest table -->
     <table class="w-full mt-3 border border-collapse">
         <thead>
@@ -119,6 +138,20 @@ document.getElementById('select-all').addEventListener('change', function () {
     document.querySelectorAll('.guest-checkbox').forEach(cb => {
         cb.checked = this.checked;
     });
+});
+
+// script sa error container
+document.querySelector('form').addEventListener('submit', function (e) {
+    const checkedGuests = document.querySelectorAll('.guest-checkbox:checked');
+    const errorBox = document.getElementById('guest-error');
+
+    if (checkedGuests.length === 0) {
+        e.preventDefault();
+        errorBox.classList.remove('hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth'});
+    } else {
+        errorBox.classList.add('hidden');
+    }
 });
 </script>
   
