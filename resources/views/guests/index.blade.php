@@ -65,6 +65,11 @@
             + Add Guest
         </a>
         <h1 class="text-2xl font-bold mt-2 text-gray-700">Guest List</h1>
+        @if ($errors->any())
+            <div class="mb-4 mx-auto max-w-md p-3 bg-red-100 text-red-700 rounded text-center">
+                {{ $errors->first() }}
+            </div>
+        @endif
     <form method="POST" action="{{ route('guest_meals.store') }}">
     @csrf
 
@@ -82,6 +87,12 @@
     <input type="hidden" name="meal_date" value="{{ now()->toDateString() }}">
 
    
+    <div id="menu-error"
+        class="hidden mb-4 mx-auto max-w-md p-3 bg-red-100 text-red-700 rounded text-center">
+        Selected meal has no menu set for today.
+    </div>
+
+    <!-- Guest error div -->
     <div id="guest-error" class="hidden mb-4 mx-auto max-w-md p-3 bg-red-100 text-red-700 rounded text-center">
             Please select at least one guest before recording.
     </div>
@@ -133,27 +144,49 @@
     </div>
 
 
-  <script>
+<script>
+    // Blade JSON
+    const availableMeals = @json($todayMeals->keys()->toArray());
+</script>
+
+
+
+<script>
 document.getElementById('select-all').addEventListener('change', function () {
     document.querySelectorAll('.guest-checkbox').forEach(cb => {
         cb.checked = this.checked;
     });
 });
 
-// script sa error container
 document.querySelector('form').addEventListener('submit', function (e) {
     const checkedGuests = document.querySelectorAll('.guest-checkbox:checked');
-    const errorBox = document.getElementById('guest-error');
+    const selectedMeal = document.getElementById('meal_type').value;
 
+    const guestError = document.getElementById('guest-error');
+    const menuError  = document.getElementById('menu-error');
+
+    // reset errors
+    guestError.classList.add('hidden');
+    menuError.classList.add('hidden');
+
+    //  no guests selected
     if (checkedGuests.length === 0) {
         e.preventDefault();
-        errorBox.classList.remove('hidden');
-        window.scrollTo({ top: 0, behavior: 'smooth'});
-    } else {
-        errorBox.classList.add('hidden');
+        guestError.classList.remove('hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+    }
+
+    //  no menu for selected meal
+    if (!availableMeals.includes(selectedMeal)) {
+        e.preventDefault();
+        menuError.classList.remove('hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
     }
 });
 </script>
+
   
 </body>
 </html>

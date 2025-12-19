@@ -41,7 +41,7 @@ class GuestMealController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'guest_ids' => 'required|array',
+            'guest_ids' => 'required|array|min:1',
             'meal_type' => 'required|in:breakfast,lunch,dinner',
             'meal_date' => 'required|date',
         ], [
@@ -49,10 +49,18 @@ class GuestMealController extends Controller
             'guest_ids.min' => 'Please select at least one guest.',
         ]);
 
-        // Get the meal record for today
-         $meal = Meal::where('meal_date', $request->meal_date)
-        ->where('meal_type', $request->meal_type)
-        ->firstOrFail();
+        // ✅ Check if menu exists FIRST
+        $meal = Meal::where('meal_type', $request->meal_type)
+        ->whereDate('meal_date', $request->meal_date)
+        ->first();
+
+        if (! $meal) {
+        return back()
+            ->withErrors([
+                'meal_type' => 'Selected meal has no menu set for today.'
+            ])
+            ->withInput();
+    }
 
     // Record each selected guest
     foreach ($request->guest_ids as $guestId) {
