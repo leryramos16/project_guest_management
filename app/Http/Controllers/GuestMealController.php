@@ -49,7 +49,7 @@ class GuestMealController extends Controller
             'guest_ids.min' => 'Please select at least one guest.',
         ]);
 
-        // ✅ Check if menu exists FIRST
+        //  Check if menu exists FIRST
         $meal = Meal::where('meal_type', $request->meal_type)
         ->whereDate('meal_date', $request->meal_date)
         ->first();
@@ -62,16 +62,26 @@ class GuestMealController extends Controller
             ->withInput();
     }
 
+    $created = false;
+
     // Record each selected guest
     foreach ($request->guest_ids as $guestId) {
-        GuestMeal::firstOrCreate(
+        $guestMeal = GuestMeal::firstOrCreate(
             [
                 'guest_id' => $guestId,
                 'meal_id' => $meal->id,
             ]
         );
+
+        if ($guestMeal->wasRecentlyCreated) {
+            $created = true;
+        }
     }
 
-    return back()->with('success', 'Meals recorded successfully!');
+    if ($created) {
+        return back()->with('success', 'Meals recorded successfully!');
+    }
+
+    return back()->with('info', 'Selected guests already have meals recorded!');
     }
 }

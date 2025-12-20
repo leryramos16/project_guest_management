@@ -83,10 +83,44 @@
         </select>
     </div>
 
+    <div id="flash-message">
+        @if (session('success'))
+            <div class="bg-green-100 text-green-700 p-2 rounded mb-2">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if (session('info'))
+            <div class="mx-auto max-w-md mb-4 p-4 rounded-lg 
+            bg-red-100 border border-red-300 
+            text-red-800 text-sm text-center
+            flex items-center justify-center gap-2">
+    
+        <!-- Error icon -->
+        <svg xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5 text-red-600"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor">
+            <path stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 9v2m0 4h.01M5.07 19h13.86L12 5 5.07 19z" />
+        </svg>
+
+    <strong>{{ session('info') }}</strong>
+</div>
+
+        @endif
+    </div>
+
+
     <!-- Hidden date -->
     <input type="hidden" name="meal_date" value="{{ now()->toDateString() }}">
 
-   
+    
+
+
     <div id="menu-error"
         class="hidden mb-4 mx-auto max-w-md p-3 bg-red-100 text-red-700 rounded text-center">
         Selected meal has no menu set for today.
@@ -144,6 +178,22 @@
     </div>
 
 
+<!-- Scroll script sa flash message -->
+ @if (session('success') || session('info'))
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const message = document.getElementById('flash-message');
+        if (message) {
+            message.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    });
+</script>
+@endif
+
+
 <script>
     // Blade JSON
     const availableMeals = @json($todayMeals->keys()->toArray());
@@ -173,7 +223,10 @@ document.querySelector('form').addEventListener('submit', function (e) {
     if (checkedGuests.length === 0) {
         e.preventDefault();
         guestError.classList.remove('hidden');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        guestError.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+    });
         return;
     }
 
