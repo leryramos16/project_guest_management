@@ -7,15 +7,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-pink-200 p-6">
-    <div class="max-w-3xl mx-auto">
-        @if (session('success'))
-            <p class="text-green-600 mb-4">{{ session('success') }}</p>
-        @endif
-    </div>
     <div class="max-w-3xl mx-auto bg-white shadow-lg rounded-lg p-6">
-        
-
-
         <div class="mb-6">
             <div class="mb-3">  
                 <a href="{{ route('meals.create') }}" class="px-4 py-2 bg-gray-300 text-black rounded hover:bg-gray-400">
