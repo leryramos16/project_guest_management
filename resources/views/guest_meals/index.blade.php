@@ -72,7 +72,7 @@
 
         @foreach ($guestMealsByType as $gm)
             <tr>
-                <td class="p-2 border">{{ $gm->guest->full_name }}</td>
+                <td class="p-2 border"><strong>{{ $gm->guest->room?->room_number ?? 'No Room' }}</strong> - {{ $gm->guest->full_name }}</td>
                 <td class="p-2 border capitalize">{{ $gm->meal->meal_type }}</td>
                 <td class="p-2 border">{{ $gm->meal->main_menu }}</td>
                 <td class="p-2 border">{{ $gm->meal->soup }}</td>

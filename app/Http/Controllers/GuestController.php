@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Guest;
+use App\Models\Rooms;
 use App\Models\Meal;
 use Illuminate\Http\Request;
 
@@ -12,7 +13,7 @@ class GuestController extends Controller
      */
    public function index()
 {
-    $guests = Guest::all();
+    $guests = Guest::with('room')->get();
 
     // Get today's meals keyed by meal_type
     $todayMeals = Meal::where('meal_date', today())
@@ -27,7 +28,8 @@ class GuestController extends Controller
      */
     public function create()
     {
-        return view('guests.create');
+        $rooms = Rooms::orderBy('room_number')->get();
+        return view('guests.create', compact('rooms'));
     }
 
     /**
@@ -37,7 +39,7 @@ class GuestController extends Controller
 {
     $validated = $request->validate([
         'full_name' => 'required|string|max:255',
-        'room_number' => 'required|string|max:50',
+        'room_id' => 'required|exists:rooms,id',
         'check_in_date' => 'required|date',
         'check_out_date' => 'required|date|after_or_equal:check_in_date',
     ]);

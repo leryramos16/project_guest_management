@@ -20,7 +20,14 @@
 
             <!-- Room Number -->
              <label class="block mb-2 text-sm font-medium">Room Number</label>
-             <input type="text" name="room_number" class="w-full p-2 border rounded mb-4" autocomplete="off" required>
+             <select name="room_id" id="" class="w-full p-2 border rounded mb-4" required>
+                <option value="">-- Select Room --</option>
+                @foreach ($rooms as $room)
+                <option value="{{ $room->id }}">
+                    Room {{ $room->room_number }}
+                </option>
+                @endforeach
+             </select>
             <!-- Check-in Date -->
             <label class="block mb-2 text-sm font-medium">Check-in Date</label>
             <input type="date" name="check_in_date" class="w-full p-2 border rounded mb-4" required>
