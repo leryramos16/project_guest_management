@@ -75,7 +75,7 @@
         </select>
     </div>
 
-    <div id="flash-message">
+    <div id="flash-message" class="transition-opacity duration-700 opacity-100">
         @if (session('success'))
             <div class="bg-green-100 text-green-700 p-2 rounded mb-2">
                 {{ session('success') }}
@@ -114,12 +114,12 @@
 
 
     <div id="menu-error"
-        class="hidden mb-4 mx-auto max-w-md p-3 bg-red-100 text-red-700 rounded text-center">
+        class="hidden mb-4 mx-auto max-w-md p-3 bg-red-100 text-red-700 rounded text-center transition-opacity duration-700 opacity-100">
         Selected meal has no menu set for today.
     </div>
 
     <!-- Guest error div -->
-    <div id="guest-error" class="hidden mb-4 mx-auto max-w-md p-3 bg-red-100 text-red-700 rounded text-center">
+    <div id="guest-error" class="hidden mb-4 mx-auto max-w-md p-3 bg-red-100 text-red-700 rounded text-center transition-opacity duration-700 opacity-100">
             Please select at least one guest before recording.
     </div>
     <!-- Guest table -->
@@ -175,12 +175,21 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const message = document.getElementById('flash-message');
-        if (message) {
+        if (!message) return; 
             message.scrollIntoView({
                 behavior: 'smooth',
                 block: 'start'
             });
-        }
+        // Fade out after 3 seconds
+        setTimeout(() => {
+            message.classList.remove('opacity-100');
+            message.classList.add('opacity-0');
+        }, 3000);
+
+        //Remove from layout after fade
+        setTimeout(() => {
+            message.remove();
+        }, 3800);
     });
 </script>
 @endif
@@ -219,6 +228,15 @@ document.querySelector('form').addEventListener('submit', function (e) {
         behavior: 'smooth',
         block: 'start'
     });
+        setTimeout(() => {
+            guestError.classList.add('opacity-0')
+        }, 3000);
+
+        setTimeout(() => {
+            guestError.classList.add('hidden');
+            guestError.classList.remove('opacity-0');
+        }, 3800);
+
         return;
     }
 
@@ -227,9 +245,23 @@ document.querySelector('form').addEventListener('submit', function (e) {
         e.preventDefault();
         menuError.classList.remove('hidden');
         window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        // Fade out after 3 seconds
+    setTimeout(() => {
+        menuError.classList.add('opacity-0');
+    }, 3000);
+
+    // Remove from layout after fade
+    setTimeout(() => {
+        menuError.classList.add('hidden');
+        menuError.classList.remove('opacity-0');
+    }, 3800);
+
         return;
     }
 });
+
+
 </script>
 
   
