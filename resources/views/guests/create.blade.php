@@ -23,8 +23,10 @@
              <select name="room_id" id="" class="w-full p-2 border rounded mb-4" required>
                 <option value="">-- Select Room --</option>
                 @foreach ($rooms as $room)
-                <option value="{{ $room->id }}">
+                <option value="{{ $room->id }}"
+                    {{ in_array($room->id, $occupiedRoomIds) ? 'disabled' : ''}}>
                     Room {{ $room->room_number }}
+                    {{ in_array($room->id, $occupiedRoomIds) ? '(Occupied)' : '' }}
                 </option>
                 @endforeach
              </select>

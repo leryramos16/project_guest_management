@@ -8,7 +8,11 @@
 </head>
 <body class="bg-gray-100 p-6">
     <div class="max-w-4xl mx-auto bg-white p-6 rounded shadow">
-
+        <a href="{{ route('guests.index') }}">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
+                </svg>
+        </a>
         <h1 class="text-2xl font-bold mb-4">Guest Meals Records</h1>
         <div class="overflow-x-auto">
             <div>

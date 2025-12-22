@@ -29,7 +29,13 @@ class GuestController extends Controller
     public function create()
     {
         $rooms = Rooms::orderBy('room_number')->get();
-        return view('guests.create', compact('rooms'));
+
+        // Get rooms that are currently occupied today
+        $occupiedRoomIds = Guest::whereDate('check_out_date', '>=', today())
+                                ->pluck('room_id')
+                                ->toArray();
+
+        return view('guests.create', compact('rooms', 'occupiedRoomIds'));
     }
 
     /**
@@ -43,6 +49,10 @@ class GuestController extends Controller
         'check_in_date' => 'required|date',
         'check_out_date' => 'required|date|after_or_equal:check_in_date',
     ]);
+
+    
+
+    
 
     Guest::create($validated);
 

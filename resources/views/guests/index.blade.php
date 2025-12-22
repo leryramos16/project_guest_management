@@ -8,6 +8,10 @@
 </head>
 <body class="bg-pink-200 p-6">
     <div class="max-w-3xl mx-auto bg-white shadow-lg rounded-lg p-6">
+        <div id="menu-error"
+        class="hidden mb-4 mx-auto max-w-md p-3 bg-red-200 text-red-700 rounded text-center transition-opacity duration-700 opacity-100">
+        *Selected meal has no menu set for today.*
+        </div>
         <div class="mb-6">
             <div class="mb-3">  
                 <a href="{{ route('meals.create') }}" class="px-4 py-2 bg-gray-300 text-black rounded hover:bg-gray-400">
@@ -113,14 +117,11 @@
     
 
 
-    <div id="menu-error"
-        class="hidden mb-4 mx-auto max-w-md p-3 bg-red-100 text-red-700 rounded text-center transition-opacity duration-700 opacity-100">
-        Selected meal has no menu set for today.
-    </div>
+    
 
     <!-- Guest error div -->
     <div id="guest-error" class="hidden mb-4 mx-auto max-w-md p-3 bg-red-100 text-red-700 rounded text-center transition-opacity duration-700 opacity-100">
-            Please select at least one guest before recording.
+            *Please select at least one guest before recording.*
     </div>
     <!-- Guest table -->
     <table class="w-full mt-3 border border-collapse">
