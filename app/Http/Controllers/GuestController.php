@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Guest;
 use App\Models\Rooms;
 use App\Models\Meal;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class GuestController extends Controller
@@ -13,7 +14,14 @@ class GuestController extends Controller
      */
    public function index()
 {
-    $guests = Guest::with('room')->get();
+
+    $today = Carbon::today();
+
+    // hindi mafefetch at all ang checkout na
+    $guests = Guest::active()
+        ->with('room')
+        ->orderBy('room_id')
+        ->get();
 
     // Get today's meals keyed by meal_type
     $todayMeals = Meal::where('meal_date', today())

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Rooms;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Guest extends Model
@@ -21,6 +22,15 @@ class Guest extends Model
     public function guestMeals()
     {
         return $this->hasMany(GuestMeal::class);
+    }
+
+    public function scopeActive($query)
+    {
+        $today = Carbon::today();
+
+        return $query 
+            ->whereDate('check_in_date', '<=', $today)
+            ->whereDate('check_out_date', '>=', $today);
     }
 
 
