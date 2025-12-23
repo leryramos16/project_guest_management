@@ -18,6 +18,10 @@ class Guest extends Model
         return $this->belongsTo(Rooms::class);
     }
 
+    public function guestMeals()
+    {
+        return $this->hasMany(GuestMeal::class);
+    }
 
 
 }

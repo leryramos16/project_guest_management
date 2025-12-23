@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+
+
 use Illuminate\Database\Eloquent\Model;
 
 class GuestMeal extends Model
@@ -24,4 +26,6 @@ class GuestMeal extends Model
     {
         return $this->belongsTo(Meal::class);
     }
+
+   
 }

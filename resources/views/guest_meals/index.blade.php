@@ -42,7 +42,7 @@
             <table class="w-full border border-collapse">
     <thead>
         <tr class="bg-gray-200">
-            <th class="p-2 border">Guest</th>
+            <th class="p-2 border">Guest & Room No.</th>
             <th class="p-2 border">Meal Type</th>
             <th class="p-2 border">Main</th>
             <th class="p-2 border">Soup</th>
@@ -76,7 +76,11 @@
 
         @foreach ($guestMealsByType as $gm)
             <tr>
-                <td class="p-2 border"><strong>{{ $gm->guest->room?->room_number ?? 'No Room' }}</strong> - {{ $gm->guest->full_name }}</td>
+                <td class="p-2 border"><strong>{{ $gm->guest->room?->room_number ?? 'No Room' }}</strong> - 
+                    <a href="{{ route('guests.meals.show', $gm->guest->id) }}" class="text-blue-600 hover:underline font-semibold">
+                        {{ $gm->guest->full_name }}
+                    </a>
+                </td>
                 <td class="p-2 border capitalize">{{ $gm->meal->meal_type }}</td>
                 <td class="p-2 border">{{ $gm->meal->main_menu }}</td>
                 <td class="p-2 border">{{ $gm->meal->soup }}</td>

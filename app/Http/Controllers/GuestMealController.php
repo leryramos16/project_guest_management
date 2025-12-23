@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Meal;
 use App\Models\GuestMeal;
+use App\Models\Guest;
 use Illuminate\Http\Request;
 
 
@@ -83,5 +84,16 @@ class GuestMealController extends Controller
     }
 
     return back()->with('info', 'Selected guests already have meals recorded!');
+    }
+
+    public function show(Guest $guest)
+    {
+         // Load meals related to this guest
+         $guestMeals = $guest->guestMeals()
+            ->with('meal')
+            ->orderByDesc('meal_id')
+            ->get();
+
+            return view('guest_meals.show', compact('guest', 'guestMeals'));
     }
 }
