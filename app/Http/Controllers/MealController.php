@@ -20,7 +20,11 @@ class MealController extends Controller
             ->pluck('meal_type')
             ->toArray();
 
-        return view('meals.create', compact('usedMealTypes', 'mealDate'));
+        // Check if all meal types are already set
+        $mealTypes = ['breakfast', 'lunch', 'dinner'];
+        $allMealsSet = empty(array_diff($mealTypes, $usedMealTypes)) ; // true if all are set
+
+        return view('meals.create', compact('usedMealTypes', 'mealDate', 'allMealsSet'));
     }
 
     public function store(Request $request)

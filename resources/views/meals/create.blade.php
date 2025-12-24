@@ -32,6 +32,11 @@
             @csrf
             <input type="hidden" name="meal_date" value="{{ $mealDate }}">
             <label class="block mb-2">Meal Type</label>
+            @if($allMealsSet)
+             <select class=" italic w-full border p-2 mb-4 text-red-600" disabled>
+                <option>*All meal types for this date are already set!*</option>
+            </select>
+            @else
             <select name="meal_type" class="w-full border p-2 mb-4" required> 
                 @php
                     $mealTypes = ['breakfast', 'lunch', 'dinner'];
@@ -45,6 +50,7 @@
                 </option>
                 @endforeach
             </select>
+            @endif
             <label class="block mb-2">Main Menu</label>
             <input type="text" name="main_menu" class="w-full border p-2 mb-4" autocomplete="off" required>
 
@@ -57,9 +63,17 @@
             <label class="block mb-2">Fruits</label>
             <input type="text" name="fruits" class="w-full border p-2 mb-4" autocomplete="off" required>
 
-            <button class="bg-blue-600 text-white px-4 py-2 rounded">
+            <button
+                @class([
+                    'px-4 py-2 rounded text-white',
+                    'bg-blue-600 hover:bg-blue-700' => !$allMealsSet,
+                    'bg-gray-400 cursor-not-allowed' => $allMealsSet,
+                ])
+                @if($allMealsSet) disabled @endif
+            >
                 Save Meal
             </button>
+
         </form>
     </div>
 </body>
