@@ -12,15 +12,15 @@ class MealController extends Controller
 {
     
 
-    public function create()
+    public function create(Request $request)
     {
-        $today = Carbon::now()->toDateString();
+        $mealDate = $request->meal_date ?? Carbon::now()->toDateString();
 
-        $usedMealTypes = Meal::whereDate('meal_date', $today)
+        $usedMealTypes = Meal::whereDate('meal_date', $mealDate)
             ->pluck('meal_type')
             ->toArray();
 
-        return view('meals.create', compact('usedMealTypes'));
+        return view('meals.create', compact('usedMealTypes', 'mealDate'));
     }
 
     public function store(Request $request)
