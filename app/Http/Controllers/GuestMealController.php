@@ -14,7 +14,7 @@ class GuestMealController extends Controller
         
 
         // Get all guest meals with guest and meal info
-        $guestMeals = GuestMeal::with(['guest', 'meal'])
+        $guestMeals = GuestMeal::with(['guest.rooms', 'meal'])
             ->orderBy('meal_id')
             ->get();
         $query = GuestMeal::with(['guest', 'meal']);

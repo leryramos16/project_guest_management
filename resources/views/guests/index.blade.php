@@ -136,7 +136,7 @@
                     </label>
                 </div>
                 </th>
-                <th class="p-2 border">Room No. & Full Name</th>
+                <th class="p-2 border">Guest / Rooms</th>
                 <th class="p-2 border">Check-in</th>
                 <th class="p-2 border">Check-out</th>
             </tr>

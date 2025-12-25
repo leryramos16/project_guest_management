@@ -18,7 +18,7 @@
     </h1>
 
     <p class="text-gray-600 mb-4">
-        Room: {{ $guest->room?->room_number ?? 'No Room Assigned' }}
+        Room: {{ $guest->rooms->pluck('room_number')->join(',') }}
     </p>
 
     <table class="w-full border border-collapse">
