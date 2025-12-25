@@ -147,7 +147,10 @@
                 <td class="p-2 border">
                     <input type="checkbox" name="guest_ids[]" value="{{ $guest->id }}" class="guest-checkbox">
                 </td>
-                <td class="p-2 border">{{ $guest->room?->room_number ?? 'No Room' }} - {{ $guest->full_name }}</td>
+                <td class="p-2 border">
+                    <small class="text-gray-600">
+                        {{ $guest->rooms->pluck('room_number')->join(', ') }}
+                    </small> - {{ $guest->full_name }}</td>
                 <td class="p-2 border">{{ \Carbon\Carbon::parse($guest->check_in_date)->format('M d, Y') }}</td>
                 <td class="p-2 border">{{ \Carbon\Carbon::parse($guest->check_out_date)->format('M d, Y') }}</td>
             </tr>

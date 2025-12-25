@@ -19,17 +19,25 @@
             <input type="text" name="full_name" class="w-full p-2 border rounded mb-4" autocomplete="off" required>
 
             <!-- Room Number -->
-             <label class="block mb-2 text-sm font-medium">Room Number</label>
-             <select name="room_id" id="" class="w-full p-2 border rounded mb-4" required>
-                <option value="">-- Select Room --</option>
+             <label class="block mb-2 text-sm font-medium">Room Numbers</label>
+             <div class="grid grid-cols-2 gap-2">
                 @foreach ($rooms as $room)
-                <option value="{{ $room->id }}"
-                    {{ in_array($room->id, $occupiedRoomIds) ? 'disabled' : ''}}>
-                    Room {{ $room->room_number }}
-                    {{ in_array($room->id, $occupiedRoomIds) ? '(Occupied)' : '' }}
-                </option>
+                <label class="flex items-center gap-2 p-2 border rounded
+                    {{ in_array($room->id, $occupiedRoomIds) ? 'opacity-50' : '' }}">
+
+                    <input type="checkbox"
+                            name="room_ids[]"
+                            value="{{ $room->id }}"
+                            {{ in_array($room->id, $occupiedRoomIds) ? 'disabled' : '' }}
+                            class="w-4 h-4"
+                    >
+                    <span>
+                        Room {{ $room->room_number }}
+                        {{ in_array($room->id, $occupiedRoomIds) ? '(Occupied)' : '' }}
+                    </span>
+                </label>
                 @endforeach
-             </select>
+             </div>
             <!-- Check-in Date -->
             <label class="block mb-2 text-sm font-medium">Check-in Date</label>
             <input type="date" name="check_in_date" class="w-full p-2 border rounded mb-4" required>

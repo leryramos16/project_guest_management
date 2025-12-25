@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Rooms;
+use App\Models\Room;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,13 +10,18 @@ class Guest extends Model
 {
     protected $fillable = [
     'full_name',
-    'room_id',
     'check_in_date',
     'check_out_date',
+    'is_group_leader',
 ];
-    public function room()
+
+
+    /**
+     * One guest (leader) can have many rooms
+     */
+    public function rooms()
     {
-        return $this->belongsTo(Rooms::class);
+        return $this->belongsToMany(Room::class, 'guest_room');
     }
 
     public function guestMeals()

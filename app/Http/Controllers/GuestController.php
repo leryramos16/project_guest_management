@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Guest;
-use App\Models\Rooms;
+use App\Models\Room;
 use App\Models\Meal;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -19,8 +19,8 @@ class GuestController extends Controller
 
     // hindi mafefetch at all ang checkout na
     $guests = Guest::active()
-        ->with('room')
-        ->orderBy('room_id')
+        ->with('rooms')
+        ->orderBy('full_name')
         ->get();
 
     // Get today's meals keyed by meal_type
@@ -36,12 +36,16 @@ class GuestController extends Controller
      */
     public function create()
     {
-        $rooms = Rooms::orderBy('room_number')->get();
+        $rooms = Room::orderBy('room_number')->get();
 
-        // Get rooms that are currently occupied today
-        $occupiedRoomIds = Guest::whereDate('check_out_date', '>=', today())
-                                ->pluck('room_id')
-                                ->toArray();
+        // Rooms occupied by ACTIVE guests
+        $occupiedRoomIds = Guest::active()
+            ->with('rooms')
+            ->get()
+            ->pluck('rooms')
+            ->flatten()
+            ->pluck('id')
+            ->toArray();
 
         return view('guests.create', compact('rooms', 'occupiedRoomIds'));
     }
@@ -53,16 +57,22 @@ class GuestController extends Controller
 {
     $validated = $request->validate([
         'full_name' => 'required|string|max:255',
-        'room_id' => 'required|exists:rooms,id',
+        'room_ids' => 'required|array|min:1',
+        'room_ids.*' => 'exists:rooms,id',
         'check_in_date' => 'required|date',
         'check_out_date' => 'required|date|after_or_equal:check_in_date',
     ]);
 
-    
+    // Create the group leader
+    $guest = Guest::create([
+        'full_name' => $validated['full_name'],
+        'check_in_date' => $validated['check_in_date'],
+        'check_out_date' => $validated['check_out_date'],
+        'is_group_leader' => true,
+    ]);
 
-    
-
-    Guest::create($validated);
+    // Attach selected rooms
+    $guest->rooms()->attach($validated['room_ids']);
 
     return redirect()->route('guests.index')->with('success', 'Guest added successfully!');
 }
