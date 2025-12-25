@@ -76,7 +76,7 @@
 
         @foreach ($guestMealsByType as $gm)
             <tr>
-                <td class="p-2 border"><strong>{{ $gm->guest->rooms->pluck('room_number')->join(',') }}</strong> - 
+                <td class="p-2 border"><strong>{{ $gm->guest->rooms->pluck('room_number')->join(', ') }}</strong> - 
                     <a href="{{ route('guests.meals.show', $gm->guest->id) }}" class="text-blue-600 hover:underline font-semibold">
                         {{ $gm->guest->full_name }}
                     </a>

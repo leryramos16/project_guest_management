@@ -131,7 +131,7 @@
                             <!-- Select All checkbox -->
                 <div class="">
                     <label class="flex items-center gap-2">
-                        <input type="checkbox" id="select-all">
+                        <input type="checkbox" id="select-all">All
                         
                     </label>
                 </div>
