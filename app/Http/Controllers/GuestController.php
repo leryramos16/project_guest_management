@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Guest;
 use App\Models\Room;
 use App\Models\Meal;
+use App\Models\GuestMeal;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -27,8 +28,22 @@ class GuestController extends Controller
     $todayMeals = Meal::where('meal_date', today())
                       ->get()
                       ->keyBy('meal_type');
+
+    // Get today's guest meals
+    $guestMealsToday = GuestMeal::with('meal')
+        ->whereHas('meal', function($q) use ($today) {
+            $q->whereDate('meal_date', $today);
+
+        })
+        ->get()
+        ->groupBy('guest_id')
+        ->map(function ($meals) {
+            return $meals
+            ->pluck('meal.meal_type')
+            ->toArray();
+        });
     
-    return view('guests.index', compact('guests', 'todayMeals'));
+    return view('guests.index', compact('guests', 'todayMeals', 'guestMealsToday'));
 }
 
     /**

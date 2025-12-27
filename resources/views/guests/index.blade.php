@@ -145,7 +145,7 @@
             @forelse ($guests as $guest)
             <tr>
                 <td class="p-2 border">
-                    <input type="checkbox" name="guest_ids[]" value="{{ $guest->id }}" class="guest-checkbox">
+                    <input type="checkbox" name="guest_ids[]" value="{{ $guest->id }}" class="guest-checkbox" data-meals='@json($guestMealsToday[$guest->id] ?? [])'>
                 </td>
                 <td class="p-2 border">
                     <small class="text-gray-600">
@@ -206,10 +206,14 @@
 
 
 
+<!-- DISABLE “SELECT ALL” LOGIC -->
 <script>
 document.getElementById('select-all').addEventListener('change', function () {
     document.querySelectorAll('.guest-checkbox').forEach(cb => {
-        cb.checked = this.checked;
+        if (!cb.disabled) {
+            cb.checked = this.checked;
+        }
+        
     });
 });
 
@@ -264,9 +268,40 @@ document.querySelector('form').addEventListener('submit', function (e) {
         return;
     }
 });
-
-
 </script>
+
+
+<!-- DISABLE CHECKBOX BASED ON MEAL TYPE -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const mealSelect = document.getElementById('meal_type');
+        const guestCheckboxes = document.querySelectorAll('.guest-checkbox');
+
+        function updateGuestCheckboxes() {
+            const selectedMeal = mealSelect.value;
+
+            guestCheckboxes.forEach(cb => {
+                const guestMeals = JSON.parse(cb.dataset.meals || '[]');
+
+                if (guestMeals.includes(selectedMeal)) {
+                    cb.checked = false;
+                    cb.disabled = true;
+                } else {
+                    cb.disabled = false;
+                }
+            });
+        }
+
+        // Run on page load
+        updateGuestCheckboxes();
+
+        //Run when meal type changes
+        mealSelect.addEventListener('change', updateGuestCheckboxes);
+    })
+</script>
+
+
+
 
   
 </body>
