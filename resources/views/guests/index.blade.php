@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FullBoard Guest</title>.
+    <title>FullBoard Guest</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-pink-200 p-6">
@@ -148,9 +148,34 @@
                     <input type="checkbox" name="guest_ids[]" value="{{ $guest->id }}" class="guest-checkbox" data-meals='@json($guestMealsToday[$guest->id] ?? [])'>
                 </td>
                 <td class="p-2 border">
-                    <small class="text-gray-600">
-                        {{ $guest->rooms->pluck('room_number')->join(', ') }}
-                    </small> - {{ $guest->full_name }}</td>
+                    <div class="font-medium">{{ $guest->full_name }}</div>
+
+                    <div class="flex gap-2 mt-1 text-xs">
+                        @foreach (['breakfast', 'lunch', 'dinner'] as $meal)
+                            @php
+                                $hasMeal = in_array(
+                                    $meal,
+                                    $guestMealsToday[$guest->id] ?? []
+                                );
+                            @endphp
+
+                            <span class="
+                                px-2 py-0.5 rounded
+                                {{ $hasMeal
+                                    ? 'bg-green-100 text-green-700'
+                                    : 'bg-gray-100 text-gray-400'
+                                }}">
+                                {{ ucfirst($meal) }}
+                                {{ $hasMeal ? '✓' : '—' }}
+                            </span>
+                        @endforeach
+                    </div>
+
+                    <small class="text-gray-600 block mt-1">
+                        Rooms: {{ $guest->rooms->pluck('room_number')->join(', ') }}
+                    </small>
+                </td>
+
                 <td class="p-2 border">{{ \Carbon\Carbon::parse($guest->check_in_date)->format('M d, Y') }}</td>
                 <td class="p-2 border">{{ \Carbon\Carbon::parse($guest->check_out_date)->format('M d, Y') }}</td>
             </tr>
