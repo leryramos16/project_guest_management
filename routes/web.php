@@ -21,6 +21,8 @@ Route::put('meals/{meal}', [MealController::class, 'update'])->name('meals.updat
 //route link ng name ng guest papunta sa recorded meals (quick view)
 Route::get('/guest_meals/{guest}', [GuestMealController::class, 'show'])
     ->name('guest_meals.show');
+// route ng undo foreach meal type
+Route::delete('/guest_meals/{guest}/{mealType}/undo', [GuestMealController::class, 'undo'])->name('guest_meals.undo');
 
 
 

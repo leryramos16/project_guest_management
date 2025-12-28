@@ -96,4 +96,25 @@ class GuestMealController extends Controller
 
             return view('guest_meals.show', compact('guest', 'guestMeals'));
     }
+
+    
+    public function undo(Guest $guest, $mealType)
+{
+    $today = now()->toDateString();
+
+    // Find today's meal record for this guest and meal type
+    $guestMeal = GuestMeal::where('guest_id', $guest->id)
+        ->whereHas('meal', function ($q) use ($mealType, $today) {
+            $q->where('meal_type', $mealType)
+              ->whereDate('meal_date', $today);
+        })
+        ->first();
+
+    if ($guestMeal) {
+        $guestMeal->delete();
+        return back()->with('success', ucfirst($mealType).' removed successfully.');
+    }
+
+    return back()->with('info', 'No meal record found to undo.');
+}
 }

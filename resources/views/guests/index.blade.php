@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FullBoard Guest</title>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-pink-200 p-6">
@@ -171,25 +173,106 @@
                     </a>
 
                     <div class="flex gap-2 mt-1 text-xs">
-                        @foreach (['breakfast', 'lunch', 'dinner'] as $meal)
-                            @php
-                                $hasMeal = in_array(
-                                    $meal,
-                                    $guestMealsToday[$guest->id] ?? []
-                                );
-                            @endphp
+    @foreach (['breakfast', 'lunch', 'dinner'] as $meal)
+        @php
+            $hasMeal = in_array(
+                $meal,
+                $guestMealsToday[$guest->id] ?? []
+            );
+        @endphp
 
-                            <span class="
-                                px-2 py-0.5 rounded
-                                {{ $hasMeal
-                                    ? 'bg-green-100 text-green-700'
-                                    : 'bg-gray-100 text-gray-400'
-                                }}">
-                                {{ ucfirst($meal) }}
-                                {{ $hasMeal ? '✓' : '—' }}
-                            </span>
-                        @endforeach
+        <span class="px-2 py-0.5 rounded
+            {{ $hasMeal ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-400' }}">
+            
+            {{ ucfirst($meal) }}
+            @if($hasMeal)
+        <!-- Check icon -->
+        <svg xmlns="http://www.w3.org/2000/svg"
+             class="h-4 w-4"
+             fill="none"
+             viewBox="0 0 24 24"
+             stroke="currentColor">
+            <path stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="3"
+                  d="M5 13l4 4L19 7" />
+        </svg>
+    @else
+        <!-- Minus icon -->
+        <svg xmlns="http://www.w3.org/2000/svg"
+             class="h-4 w-4"
+             fill="none"
+             viewBox="0 0 24 24"
+             stroke="currentColor">
+            <path stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="3"
+                  d="M20 12H4" />
+        </svg>
+    @endif
+
+            @if($hasMeal)
+                <div x-data="{ open: false }" class="inline">
+                    <!-- Trigger button -->
+                    <button type="button"
+                            @click="open = true"
+                            class="ml-1 inline-flex items-center text-red-500 hover:text-red-700"
+                            title="Remove meal">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            class="h-4 w-4"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M9 7h6m2 0H7" />
+                        </svg>
+                    </button>
+
+
+                    <!-- Modal -->
+                    <div x-show="open" 
+                         class="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50"
+                         x-transition:enter="transition ease-out duration-300"
+                         x-transition:enter-start="opacity-0"
+                         x-transition:enter-end="opacity-100"
+                         x-transition:leave="transition ease-in duration-200"
+                         x-transition:leave-start="opacity-100"
+                         x-transition:leave-end="opacity-0">
+                        
+                        <div class="bg-white rounded-lg p-6 w-80 border border-gray-200 shadow-xl">
+                            <h2 class="text-lg font-bold mb-4">Undo {{ ucfirst($meal) }}?</h2>
+                            <p class="mb-4">Are you sure you want to undo {{ $meal }} for {{ $guest->full_name }}?</p>
+
+                            <div class="flex justify-end gap-2">
+                                <button type="button" @click="open = false"
+                                        class="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300">Cancel</button>
+                            <!--  fetch() AJAX -->
+                             <button type="button"
+                                    @click="
+                                        fetch('{{ route('guest_meals.undo', [$guest->id, $meal]) }}', {
+                                            method: 'DELETE',
+                                            headers: {
+                                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                            }
+                                        }).then(() => location.reload());
+                                    "
+                                    class="px-3 py-1 rounded bg-red-500 text-white">
+                                    Undo
+                             </button>
+
+                            </div>
+                        </div>
+
                     </div>
+                </div>
+            @endif
+
+        </span>
+    @endforeach
+</div>
+
 
                     <small class="text-gray-600 block mt-1">
                         Rooms: {{ $guest->rooms->pluck('room_number')->join(', ') }}
