@@ -42,4 +42,23 @@ class MealController extends Controller
 
         return back()->with('success', 'Meal menu saved successfully.');
     }
+
+    public function edit(Meal $meal)
+    {
+        return view('meals.edit', compact('meal'));
+    }
+
+    public function update(Request $request, Meal $meal)
+    {
+        $request->validate([
+            'main_menu' => 'required',
+            'soup' => 'required',
+            'sub_menu' =>'required',
+            'fruits' => 'required',
+        ]);
+
+        $meal->update($request->all());
+
+        return redirect()->route('guests.index')->with('success', 'Meal updated successfully!');
+    }
 }

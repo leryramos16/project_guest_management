@@ -40,22 +40,39 @@
             <h2 class="text-xl font-bold mb-2">Today's Menu</h2>
             
             
-        @foreach (['breakfast', 'lunch', 'dinner'] as $mealType)
-            @if(isset($todayMeals[$mealType]))
-                <div class="mb-4 p-4 bg-gray-100 rounded shadow">
-                    <h1 class="text-xl text-center font-semibold capitalize">{{ $mealType }}</h1>
-                    <p><strong>Main: </strong>{{ $todayMeals[$mealType]->main_menu }}</p>
-                    <p><strong>Soup: </strong>{{ $todayMeals[$mealType]->soup }}</p>
-                    <p><strong>Sub Menu: </strong>{{ $todayMeals[$mealType]->sub_menu }}</p>
-                    <p><strong>Fruits: </strong>{{ $todayMeals[$mealType]->fruits }}</p>
-                </div>
-            @else
-                <div class=" mx-auto max-w-md p-3 bg-red-100 text-red-700 rounded text-center mb-4 p-4 bg-red-100 rounded shadow">
-                    <p class="mx-auto max-w-md p-3 bg-red-100 text-red-700 rounded text-center text-red-600 capitalize">{{ $mealType }} menu not set for today.</p>
-                </div>
-            @endif
-        @endforeach
-        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                @foreach (['breakfast', 'lunch', 'dinner'] as $mealType)
+                @if(isset($todayMeals[$mealType]))
+                    <div class="bg-white rounded-lg shadow p-4 hover:shadow-lg transition relative">
+                        <h2 class="text-lg font-bold text-center capitalize mb-2">{{ $mealType }}</h2>
+                        <!-- Edit button -->
+                         <a href="{{ route('meals.edit', $todayMeals[$mealType]->id) }}"
+                            class="absolute top-2 right-2 p-2 bg-gray-100 rounded-full hover:bg-blue-100 text-blue-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5"
+                                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                     d="M11 4h2m2 2l5 5L7 20H2v-5L15 2l5 5" />
+                                </svg>
+                        </a>
+
+                        <ul class="text-gray-700 space-y-1">
+                            <li><span class="font-semibold">Main:</span> {{ $todayMeals[$mealType]->main_menu }}</li>
+                            <li><span class="font-semibold">Soup:</span> {{ $todayMeals[$mealType]->soup }}</li>
+                            <li><span class="font-semibold">Sub Menu:</span> {{ $todayMeals[$mealType]->sub_menu }}</li>
+                            <li><span class="font-semibold">Fruits:</span> {{ $todayMeals[$mealType]->fruits }}</li>
+                        </ul>
+                    </div>
+                @else
+                    <div class="bg-red-100 text-red-700 rounded-lg shadow p-4 text-center flex flex-col items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M5.07 19h13.86L12 5 5.07 19z" />
+                        </svg>
+                        <p class="capitalize font-semibold">{{ $mealType }} menu not set for today.</p>
+                    </div>
+                @endif
+            @endforeach
+            </div>
+
         
         <a href="{{ route('guests.create') }}" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
             + Add Guest
