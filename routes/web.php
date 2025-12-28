@@ -18,6 +18,10 @@ Route::get('/guests/{guest}/meals', [GuestMealController::class, 'show'])->name(
 // route ng edit meals per meal type
 Route::get('/meals/{meal}/edit', [MealController::class, 'edit'])->name('meals.edit');
 Route::put('meals/{meal}', [MealController::class, 'update'])->name('meals.update');
+//route link ng name ng guest papunta sa recorded meals (quick view)
+Route::get('/guest_meals/{guest}', [GuestMealController::class, 'show'])
+    ->name('guest_meals.show');
+
 
 
 

@@ -165,7 +165,10 @@
                     <input type="checkbox" name="guest_ids[]" value="{{ $guest->id }}" class="guest-checkbox" data-meals='@json($guestMealsToday[$guest->id] ?? [])'>
                 </td>
                 <td class="p-2 border">
-                    <div class="font-medium">{{ $guest->full_name }}</div>
+                    <a href="{{ route('guest_meals.show', $guest->id) }}" 
+                        class="font-medium text-blue-600 hover:underline">
+                            {{ $guest->full_name }}
+                    </a>
 
                     <div class="flex gap-2 mt-1 text-xs">
                         @foreach (['breakfast', 'lunch', 'dinner'] as $meal)
