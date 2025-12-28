@@ -9,6 +9,11 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-pink-200 p-6">
+    
+    <div id="ajax-success"
+        class="hidden mb-4 mx-auto max-w-md p-3 bg-green-100 text-green-700 rounded text-center transition-opacity duration-700 opacity-100">
+    </div>
+
     <div class="max-w-3xl mx-auto bg-white shadow-lg rounded-lg p-6">
         <div id="menu-error"
         class="hidden mb-4 mx-auto max-w-md p-3 bg-red-200 text-red-700 rounded text-center transition-opacity duration-700 opacity-100">
@@ -158,6 +163,7 @@
                 <th class="p-2 border">Guest / Rooms</th>
                 <th class="p-2 border">Check-in</th>
                 <th class="p-2 border">Check-out</th>
+                <th class="p-2 border">Action</th>
             </tr>
         </thead>
         <tbody>
@@ -281,6 +287,84 @@
 
                 <td class="p-2 border">{{ \Carbon\Carbon::parse($guest->check_in_date)->format('M d, Y') }}</td>
                 <td class="p-2 border">{{ \Carbon\Carbon::parse($guest->check_out_date)->format('M d, Y') }}</td>
+                <td class="p-2 border">
+                    <!-- AJAX ng Checkout now using Alphinejs -->
+                    <div x-data="{ open: false }">
+                        <button
+                            type="button"
+                            @click="open = true"
+                            class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-sm"
+                            title="Checkout Now"
+                        >
+                            Checkout Now
+                        </button>
+
+                        <!-- Modal -->
+                        <div x-show="open" 
+                            class="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50"
+                            x-transition:enter="transition ease-out duration-300"
+                            x-transition:enter-start="opacity-0"
+                            x-transition:enter-end="opacity-100"
+                            x-transition:leave="transition ease-in duration-200"
+                            x-transition:leave-start="opacity-100"
+                            x-transition:leave-end="opacity-0">
+
+                            <div class="bg-white rounded-lg p-6 w-80 border border-gray-200 shadow-xl">
+                                <h2 class="text-lg font-bold mb-4">Checkout {{ $guest->full_name }}?</h2>
+                                <p class="mb-4">Are you sure you want to checkout this guest now?</p>
+
+                                <div class="flex justify-end gap-2">
+                                    <button type="button" @click="open = false"
+                                            class="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300">Cancel</button>
+
+                                    <button type="button"
+                                        @click="
+                                            fetch('{{ route('guests.checkout', $guest->id) }}', {
+                                                method: 'PATCH',
+                                                headers: {
+                                                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                                    'Accept': 'application/json'
+                                                }
+                                            })
+                                            .then(res => res.json())
+                                        .then(data => {
+                                            if (data.success) {
+
+                                                // Show success message
+                                                const box = document.getElementById('ajax-success');
+                                                box.textContent = data.message;
+                                                box.classList.remove('hidden');
+
+                                                // Scroll to message
+                                                box.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+                                                // Fade out
+                                                setTimeout(() => {
+                                                    box.classList.add('opacity-0');
+                                                }, 3000);
+
+                                                setTimeout(() => {
+                                                    box.classList.add('hidden');
+                                                    box.classList.remove('opacity-0');
+                                                }, 3800);
+
+                                                // Remove row
+                                                $el.closest('tr').remove();
+                                            }
+
+                                            open = false;
+                                        })
+
+                                            .catch(err => console.error(err));
+                                        "
+                                        class="px-3 py-1 rounded bg-red-500 text-white">
+                                        Checkout
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
             </tr>
             @empty
             <tr>

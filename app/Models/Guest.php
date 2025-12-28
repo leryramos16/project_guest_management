@@ -35,7 +35,9 @@ class Guest extends Model
 
         return $query 
             ->whereDate('check_in_date', '<=', $today)
+            ->whereNull('checked_out_at') // not manually checked out
             ->whereDate('check_out_date', '>=', $today);
+            
     }
 
 

@@ -23,6 +23,9 @@ Route::get('/guest_meals/{guest}', [GuestMealController::class, 'show'])
     ->name('guest_meals.show');
 // route ng undo foreach meal type
 Route::delete('/guest_meals/{guest}/{mealType}/undo', [GuestMealController::class, 'undo'])->name('guest_meals.undo');
+// PATCH is usually used for updating part of a resource.
+Route::patch('/guests/{guest}/checkout', [GuestController::class, 'checkout'])
+    ->name('guests.checkout');
 
 
 

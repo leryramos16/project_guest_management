@@ -126,5 +126,15 @@ class GuestController extends Controller
         //
     }
 
+    public function checkout(Guest $guest)
+    {
+        $guest->checked_out_at = now();
+        $guest->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Guest successfully checked out.'
+        ]);
+    }
 
 }
