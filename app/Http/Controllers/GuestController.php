@@ -76,6 +76,9 @@ class GuestController extends Controller
         'room_ids.*' => 'exists:rooms,id',
         'check_in_date' => 'required|date',
         'check_out_date' => 'required|date|after_or_equal:check_in_date',
+    ], [
+        'room_ids.required' => 'Please select room!',
+        'room_ids.min' => 'Please select room!',
     ]);
 
     // Create the group leader
