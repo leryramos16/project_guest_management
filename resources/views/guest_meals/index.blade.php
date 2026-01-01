@@ -36,7 +36,7 @@
     </form>
 
 @php
-    $groupedByDate = $guestMeals->groupBy(fn($gm) => $gm->meal->meal_date);
+    $groupedByDate = collect($guestMeals->items())->groupBy(fn($gm) => $gm->meal->meal_date);
 @endphp
 
 <!-- ================= DESKTOP TABLE ================= -->
@@ -149,7 +149,9 @@
 </div>
 @endforelse
 </div>
-
+<div class="mt-6">
+    {{ $guestMeals->links() }}
+</div>
 </div>
 </body>
 </html>

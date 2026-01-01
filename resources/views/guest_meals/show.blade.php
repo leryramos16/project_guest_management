@@ -87,6 +87,10 @@
             </div>
         @endforelse
     </div>
+    <!-- Pagination -->
+<div class="mt-4">
+    {{ $guestMeals->links() }}
+</div>
 
 </div>
 

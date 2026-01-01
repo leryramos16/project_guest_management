@@ -4,40 +4,50 @@ namespace App\Http\Controllers;
 use App\Models\Meal;
 use App\Models\GuestMeal;
 use App\Models\Guest;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 
 class GuestMealController extends Controller
 {
     public function index(Request $request)
-    {   
-        
+{
+    //  Start ONE query only
+    $query = GuestMeal::with(['guest.rooms', 'meal']);
 
-        // Get all guest meals with guest and meal info
-        $guestMeals = GuestMeal::with(['guest.rooms', 'meal'])
-            ->orderBy('meal_id')
-            ->get();
-        $query = GuestMeal::with(['guest', 'meal']);
-
-        // search guest logic
-        if ($request->has('search') && $request->search != '') {
-            $query->whereHas('guest', function($q) use ($request) {
-                $q->where('full_name', 'like', '%' . $request->search . '%');
-            });
-        }
-
-        // filter date logic
-        if ($request->filled('meal_date')) {
-            $query->whereHas('meal', function ($q) use($request) {
-                $q->whereDate('meal_date', $request->meal_date);
-            });
-        }
-
-
-        $guestMeals = $query->orderBy('meal_id', 'desc')->get();
-
-        return view('guest_meals.index', compact('guestMeals'));
+    /* ================= SEARCH ================= */
+    if ($request->filled('search')) {
+        $query->whereHas('guest', function ($q) use ($request) {
+            $q->where('full_name', 'like', '%' . $request->search . '%');
+        });
     }
+
+    /* ================= DATE FILTER ================= */
+    if ($request->filled('meal_date')) {
+        $query->whereHas('meal', function ($q) use ($request) {
+            $q->whereDate('meal_date', $request->meal_date);
+        });
+    } else {
+        //  Default: LAST 7 DAYS
+        $query->whereHas('meal', function ($q) {
+            $q->whereDate('meal_date', '>=', Carbon::now()->subDays(7));
+        });
+    }
+
+    /* ================= ORDER BY MEAL DATE ================= */
+    $query->orderByDesc(
+        Meal::select('meal_date')
+            ->whereColumn('meals.id', 'guest_meals.meal_id')
+    );
+
+    /* ================= PAGINATION ================= */
+    $guestMeals = $query
+        ->paginate(10)           
+        ->withQueryString();     
+
+    return view('guest_meals.index', compact('guestMeals'));
+}
+
 
     public function store(Request $request)
     {
@@ -92,7 +102,7 @@ class GuestMealController extends Controller
          $guestMeals = $guest->guestMeals()
             ->with('meal')
             ->orderByDesc('meal_id')
-            ->get();
+            ->paginate(20);
 
             return view('guest_meals.show', compact('guest', 'guestMeals'));
     }
