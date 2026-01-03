@@ -14,12 +14,11 @@ return new class extends Migration
         Schema::create('guests', function (Blueprint $table) {
             $table->id();
             $table->string('full_name');
-            $table->foreignId('room_id')
-                    ->nullable()
-                    ->constrained()
-                    ->cascadeOnDelete();
+            $table->boolean('is_group_leader')->default(true);
             $table->date('check_in_date');
             $table->date('check_out_date');
+            $table->timestamp('checked_out_at')->nullable();
+
             $table->timestamps();
         });
     }
