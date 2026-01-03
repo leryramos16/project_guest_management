@@ -17,7 +17,7 @@ return new class extends Migration
             $table->enum('meal_type', ['breakfast', 'lunch', 'dinner']);
             $table->string('main_menu');
             $table->string('soup');
-            $table->string('sub_menu');
+            $table->string('sub_menu')->nullable();
             $table->string('fruits');
             $table->timestamps();
 

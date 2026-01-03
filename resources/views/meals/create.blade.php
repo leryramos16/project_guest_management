@@ -58,7 +58,7 @@
             <input type="text" name="soup" class="w-full border p-2 mb-4" autocomplete="off" required>
 
             <label class="block mb-2">Sub Menu</label>
-            <input type="text" name="sub_menu" class="w-full border p-2 mb-4" autocomplete="off" required>
+            <input type="text" name="sub_menu" class="w-full border p-2 mb-4" placeholder="Optional" autocomplete="off">
 
             <label class="block mb-2">Fruits</label>
             <input type="text" name="fruits" class="w-full border p-2 mb-4" autocomplete="off" required>

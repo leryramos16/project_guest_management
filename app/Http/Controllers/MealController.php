@@ -34,7 +34,7 @@ class MealController extends Controller
             'meal_type' => 'required|string|unique:meals,meal_type,NULL,id,meal_date,' . $request->meal_date,
             'main_menu' => 'required|string|max:255',
             'soup' => 'required|string|max:255',
-            'sub_menu' => 'required|string|max:255',
+            'sub_menu' => 'nullable|string|max:255',
             'fruits' => 'required|string|max:255',
         ]);
 
@@ -53,7 +53,7 @@ class MealController extends Controller
         $request->validate([
             'main_menu' => 'required',
             'soup' => 'required',
-            'sub_menu' =>'required',
+            'sub_menu' =>'nullable',
             'fruits' => 'required',
         ]);
 

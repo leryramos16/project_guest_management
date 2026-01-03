@@ -20,7 +20,7 @@
     <label class="font-semibold" for="">Soup:</label>
     <input name="soup" value="{{ $meal->soup }}" class="w-full mb-2 border p-2 rounded" placeholder="Soup" required>
     <label class="font-semibold" for="">Sub Menu:</label>
-    <input name="sub_menu" value="{{ $meal->sub_menu }}" class="w-full mb-2 border p-2 rounded" placeholder="Sub Menu" required>
+    <input name="sub_menu" value="{{ $meal->sub_menu }}" class="w-full mb-2 border p-2 rounded" placeholder="Sub Menu (optional)">
     <label class="font-semibold" for="">Fruits:</label>
     <input name="fruits" value="{{ $meal->fruits }}" class="w-full mb-4 border p-2 rounded" placeholder="Fruits" required>
 
