@@ -16,13 +16,13 @@
 
     <h2 class="text-xl font-bold mb-4 capitalize">{{ $meal->meal_type }} Edit</h2>
     <label class="font-semibold" for="">Main:</label>
-    <input name="main_menu" value="{{ $meal->main_menu }}" class="w-full mb-2 border p-2 rounded" placeholder="Main" required>
+    <input name="main_menu" value="{{ $meal->main_menu }}" class="w-full mb-2 border p-2 rounded" placeholder="Main" autocomplete="off" required>
     <label class="font-semibold" for="">Soup:</label>
-    <input name="soup" value="{{ $meal->soup }}" class="w-full mb-2 border p-2 rounded" placeholder="Soup" required>
+    <input name="soup" value="{{ $meal->soup }}" class="w-full mb-2 border p-2 rounded" placeholder="Soup" autocomplete="off" required>
     <label class="font-semibold" for="">Sub Menu:</label>
-    <input name="sub_menu" value="{{ $meal->sub_menu }}" class="w-full mb-2 border p-2 rounded" placeholder="Sub Menu (optional)">
+    <input name="sub_menu" value="{{ $meal->sub_menu }}" class="w-full mb-2 border p-2 rounded" placeholder="Sub Menu (optional)" autocomplete="off">
     <label class="font-semibold" for="">Fruits:</label>
-    <input name="fruits" value="{{ $meal->fruits }}" class="w-full mb-4 border p-2 rounded" placeholder="Fruits" required>
+    <input name="fruits" value="{{ $meal->fruits }}" class="w-full mb-4 border p-2 rounded" placeholder="Fruits" autocomplete="off" required>
 
     <button class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
         Update

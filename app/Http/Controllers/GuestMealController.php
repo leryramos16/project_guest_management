@@ -77,10 +77,18 @@ class GuestMealController extends Controller
 
     // Record each selected guest
     foreach ($request->guest_ids as $guestId) {
-        $guestMeal = GuestMeal::firstOrCreate(
+        $guestMeal = GuestMeal::create(
             [
                 'guest_id' => $guestId,
                 'meal_id' => $meal->id,
+
+                // Snapshot
+                'meal_date' => $meal->meal_date,
+                'meal_type' => $meal->meal_type,
+                'main_menu' => $meal->main_menu,
+                'soup'      => $meal->soup,
+                'sub_menu'  => $meal->sub_menu,
+                'fruits'    => $meal->fruits,
             ]
         );
 
@@ -100,8 +108,7 @@ class GuestMealController extends Controller
     {
          // Load meals related to this guest
          $guestMeals = $guest->guestMeals()
-            ->with('meal')
-            ->orderByDesc('meal_id')
+            ->orderByDesc('meal_date')
             ->paginate(20);
 
             return view('guest_meals.show', compact('guest', 'guestMeals'));

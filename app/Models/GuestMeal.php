@@ -12,6 +12,14 @@ class GuestMeal extends Model
     protected $fillable = [
         'guest_id',
         'meal_id',
+
+        //  SNAPSHOT FIELDS
+        'meal_date',
+        'meal_type',
+        'main_menu',
+        'soup',
+        'sub_menu',
+        'fruits',
         
     ];
 

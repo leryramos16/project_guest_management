@@ -43,10 +43,10 @@
                         {{ \Carbon\Carbon::parse($gm->meal->meal_date)->format('M d, Y') }}
                     </td>
                     <td class="p-2 border capitalize">{{ $gm->meal->meal_type }}</td>
-                    <td class="p-2 border">{{ $gm->meal->main_menu }}</td>
-                    <td class="p-2 border">{{ $gm->meal->soup }}</td>
-                    <td class="p-2 border">{{ $gm->meal->sub_menu }}</td>
-                    <td class="p-2 border">{{ $gm->meal->fruits }}</td>
+                    <td class="p-2 border">{{ $gm->main_menu }}</td>
+                    <td class="p-2 border">{{ $gm->soup }}</td>
+                    <td class="p-2 border">{{ $gm->sub_menu }}</td>
+                    <td class="p-2 border">{{ $gm->fruits }}</td>
                 </tr>
             @empty
                 <tr>
@@ -74,10 +74,10 @@
                 </div>
 
                 <div class="grid grid-cols-2 gap-2 text-sm mt-3">
-                    <div><b>Main:</b> {{ $gm->meal->main_menu }}</div>
-                    <div><b>Soup:</b> {{ $gm->meal->soup }}</div>
-                    <div><b>Sub:</b> {{ $gm->meal->sub_menu }}</div>
-                    <div><b>Fruits:</b> {{ $gm->meal->fruits }}</div>
+                    <div><b>Main:</b> {{ $gm->main_menu }}</div>
+                    <div><b>Soup:</b> {{ $gm->soup }}</div>
+                    <div><b>Sub:</b> {{ $gm->sub_menu }}</div>
+                    <div><b>Fruits:</b> {{ $gm->fruits }}</div>
                 </div>
 
             </div>
