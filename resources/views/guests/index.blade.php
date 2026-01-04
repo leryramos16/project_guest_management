@@ -187,6 +187,11 @@
                         class="font-medium text-blue-600 hover:underline">
                             {{ $guest->full_name }}
                     </a>
+                    @if ($guest->note)
+                        <div class="text-xs text-gray-500 italic mt-0.5">
+                            Didn't eat: {{ $guest->note }}
+                        </div>
+                    @endif
                     <!-- AJAX ng Checkout now using Alphinejs -->
                     <div x-data="{ open: false }">
                         <button

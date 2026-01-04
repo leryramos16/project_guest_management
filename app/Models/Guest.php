@@ -12,6 +12,7 @@ class Guest extends Model
     'full_name',
     'check_in_date',
     'check_out_date',
+    'note',
     'is_group_leader',
 ];
 

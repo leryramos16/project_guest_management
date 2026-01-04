@@ -50,7 +50,18 @@
             <!-- Check-out Date -->
             <label class="block mb-2 text-sm font-medium">Check-out Date</label>
             <input type="date" name="check_out_date" value="{{ old('check_out_date') }}" class="w-full p-2 border rounded mb-4" required>
-
+            
+            <!-- Optional Note ex: hindi kinakain ng guest -->
+            <label class="block mb-2 text-sm font-medium">
+                Didn't eat what (optional)
+            </label>
+            <textarea
+                name="note"
+                rows="3"
+                placeholder="example: pork, shrimp etc.."
+                class="w-full p-2 border rounded mb-4"
+            >{{ old('note') }}
+</textarea>
             <button class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
                 Save Guest
             </button>

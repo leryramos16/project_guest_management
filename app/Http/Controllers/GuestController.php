@@ -76,6 +76,7 @@ class GuestController extends Controller
         'room_ids.*' => 'exists:rooms,id',
         'check_in_date' => 'required|date',
         'check_out_date' => 'required|date|after_or_equal:check_in_date',
+        'note' => 'nullable|string|max:255',
     ], [
         'room_ids.required' => 'Please select room!',
         'room_ids.min' => 'Please select room!',
@@ -86,6 +87,7 @@ class GuestController extends Controller
         'full_name' => $validated['full_name'],
         'check_in_date' => $validated['check_in_date'],
         'check_out_date' => $validated['check_out_date'],
+        'note' => $validated['note'] ?? null,
         'is_group_leader' => true,
     ]);
 
