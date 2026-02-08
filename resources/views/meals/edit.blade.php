@@ -15,6 +15,10 @@
     
 
     <h2 class="text-xl font-bold mb-4 capitalize">{{ $meal->meal_type }} Edit</h2>
+    <div class="mb-4 p-3 bg-red-100 border-l-4 border-red-400 text-red-800 rounded">
+        Updating this meal will <strong>not affect meals already recorded for guests today</strong>. 
+        Only future meal selections will use the updated menu.
+    </div>
     <label class="font-semibold" for="">Main:</label>
     <input name="main_menu" value="{{ $meal->main_menu }}" class="w-full mb-2 border p-2 rounded" placeholder="Main" autocomplete="off" required>
     <label class="font-semibold" for="">Soup:</label>
